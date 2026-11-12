@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'required' => ':attribute wajib diisi.',
+    'required_if' => ':attribute wajib diisi.',
+    'string' => ':attribute harus berupa teks.',
+    'integer' => ':attribute harus berupa angka bulat.',
+    'boolean' => ':attribute tidak valid.',
+    'in' => ':attribute tidak valid.',
+    'exists' => ':attribute tidak valid.',
+    'unique' => ':attribute sudah digunakan.',
+    'accepted' => 'Anda perlu menyetujui pernyataan ini.',
+    'file' => ':attribute harus berupa berkas.',
+    'mimes' => ':attribute harus berformat :values.',
+    'before' => ':attribute harus sebelum hari ini.',
+    'after' => ':attribute harus setelah tanggal mulai.',
+    'confirmed' => 'Konfirmasi :attribute tidak sama.',
+    'digits' => ':attribute harus :digits digit.',
+    'date' => ':attribute bukan tanggal yang valid.',
+    'after_or_equal' => ':attribute tidak boleh sebelum hari ini.',
+    'accepted_if' => 'Anda perlu menyetujui pernyataan ini.',
+    'regex' => 'Format :attribute tidak valid.',
+    'min' => ['numeric' => ':attribute minimal :min.', 'string' => ':attribute minimal :min karakter.'],
+    'max' => ['file' => ':attribute maksimal :max KB.', 'numeric' => ':attribute maksimal :max.', 'string' => ':attribute maksimal :max karakter.'],
+    'attributes' => [
+        'name' => 'Nama', 'size' => 'Ukuran', 'capacity' => 'Kapasitas', 'rate_one' => 'Tarif 1 orang', 'rate_two' => 'Tarif 2 orang',
+        'deposit_amount' => 'Deposit', 'daily_rate' => 'Tarif harian', 'code' => 'Nomor kamar', 'floor_id' => 'Lantai',
+        'room_type_id' => 'Tipe kamar', 'notes' => 'Catatan', 'phone' => 'Nomor WhatsApp', 'occupants' => 'Jumlah penghuni', 'desired_start' => 'Tanggal mulai', 'couple_ack' => 'Pernyataan', 'birth_place' => 'Tempat lahir', 'birth_date' => 'Tanggal lahir', 'id_number' => 'Nomor identitas', 'job' => 'Pekerjaan', 'institution' => 'Instansi', 'address' => 'Alamat', 'emergency_name' => 'Nama kontak darurat', 'emergency_relation' => 'Hubungan kontak darurat', 'emergency_phone' => 'Telepon kontak darurat', 'emergency_address' => 'Alamat kontak darurat', 'id_doc' => 'Foto identitas', 'payment_method' => 'Metode pembayaran', 'mode' => 'Jenis sewa', 'start_date' => 'Tanggal mulai', 'end_date' => 'Tanggal selesai', 'password' => 'Kata sandi', 'reason' => 'Alasan', 'room_id' => 'Kamar', 'last4' => '4 digit terakhir', 'status' => 'Status', 'note' => 'Keterangan',
+    ],
+];
