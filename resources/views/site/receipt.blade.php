@@ -23,7 +23,7 @@
             <dl class="grid grid-cols-3 gap-2 py-4 text-sm">
                 <dt class="text-slate-500">Telah terima dari</dt><dd class="col-span-2 font-medium">{{ $i->rental->tenant->name }}{{ $i->rental->co_occupant_name ? ' & ' . $i->rental->co_occupant_name : '' }}</dd>
                 <dt class="text-slate-500">Kamar</dt><dd class="col-span-2">{{ $i->rental->room->code }}</dd>
-                <dt class="text-slate-500">Untuk pembayaran</dt><dd class="col-span-2">Sewa kamar — {{ $i->periodLabel() }}</dd>
+                <dt class="text-slate-500">Untuk pembayaran</dt><dd class="col-span-2">Sewa kamar - {{ $i->periodLabel() }}</dd>
                 <dt class="text-slate-500">Metode</dt><dd class="col-span-2">{{ $p->methodLabel() }}</dd>
                 <dt class="text-slate-500">Tanggal bayar</dt><dd class="col-span-2">{{ Fmt::date($p->paid_on) }}</dd>
             </dl>
