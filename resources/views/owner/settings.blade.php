@@ -29,6 +29,7 @@
         </div>
 
         <div x-show="tab === 'pesan'" x-cloak class="space-y-3">
+            <a href="{{ route('owner.whatsapp') }}" class="inline-block rounded-md bg-brand px-3 py-2 text-sm font-medium text-white">Atur pengiriman otomatis (bot WhatsApp)</a>
             @foreach (['reminder' => 'H-2', 'due' => 'Jatuh tempo', 'overdue' => 'Terlambat'] as $k => $l)
                 <div class="rounded-lg border border-slate-200 bg-white p-4 text-sm"><div class="mb-1 font-medium text-navy">{{ $l }}</div><p class="text-slate-600">{{ $sample[$k] }}</p></div>
             @endforeach

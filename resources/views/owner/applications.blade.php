@@ -19,7 +19,7 @@
             <tbody class="divide-y divide-slate-100">
             @forelse ($apps as $a)
                 <tr>
-                    <td class="px-4 py-3 font-medium">{{ $a->code }}</td>
+                    <td class="whitespace-nowrap px-4 py-3 font-medium">{{ $a->code }} <x-copy :text="$a->code" class="ml-1" /></td>
                     <td class="px-4 py-3">{{ $a->name }}</td>
                     <td class="px-4 py-3 text-slate-500">{{ $a->type->name }} · {{ $a->mode === 'daily' ? 'harian' : 'bulanan' }} · {{ $a->occupants }} orang</td>
                     <td class="px-4 py-3 text-slate-500">{{ Fmt::date($a->start_date) }}</td>

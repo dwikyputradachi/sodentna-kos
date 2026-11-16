@@ -43,5 +43,22 @@ $in = 'w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-
             @endforelse
         </tbody></table>
     </x-owner.card>
-    <p class="text-xs text-slate-400">Riwayat penghuni, masalah, dan penggantian barang di kamar ini akan tampil di sini pada fase berikutnya.</p>
+    <x-owner.card title="Riwayat penghuni kamar" note="Siapa saja yang pernah dan sedang menempati kamar ini.">
+        <table class="w-full text-sm">
+            <thead class="bg-slate-50"><tr>@foreach (['Penghuni', 'Periode', 'Tarif', 'Status'] as $h)<th class="px-4 py-2 text-left text-xs font-medium text-slate-500">{{ $h }}</th>@endforeach</tr></thead>
+            <tbody class="divide-y divide-slate-100">
+            @forelse ($rentals as $rt)
+                <tr>
+                    <td class="px-4 py-2"><a href="{{ route('owner.tenants.show', $rt->tenant_id) }}" class="font-medium text-brand-700">{{ $rt->tenant->name }}</a>@if ($rt->co_occupant_name)<span class="text-slate-500"> & {{ $rt->co_occupant_name }}</span>@endif</td>
+                    <td class="px-4 py-2 text-slate-500">{{ Fmt::date($rt->start_date) }} – {{ $rt->end_date ? Fmt::date($rt->end_date) : 'sekarang' }}</td>
+                    <td class="px-4 py-2">{{ Fmt::rp($rt->rate) }}</td>
+                    <td class="px-4 py-2"><x-owner.badge :label="$rt->statusLabel()" /></td>
+                </tr>
+            @empty
+                <tr><td colspan="4" class="px-4 py-6 text-center text-slate-500">Belum pernah ditempati.</td></tr>
+            @endforelse
+            </tbody>
+        </table>
+    </x-owner.card>
+    <p class="text-xs text-slate-400">Catatan masalah dan penggantian barang tampil di sini setelah fitur pemeliharaan dibuat.</p>
 </x-owner.layout>

@@ -50,7 +50,7 @@ class PageController extends Controller
         $p = SiteProperty::find();
         $floors = ! $p ? [] : Floor::withoutGlobalScopes()->where('property_id', $p->id)->orderBy('sort_order')->get()->mapWithKeys(fn ($f) => [
             $f->name => Room::withoutGlobalScopes()->where('floor_id', $f->id)->orderBy('code')->get()
-                ->map(fn ($r) => ['code' => $r->code, 'st' => $r->statusLabel()])->all(),
+                ->map(fn ($r) => ['id' => $r->id, 'code' => $r->code, 'st' => $r->statusLabel()])->all(),
         ])->all();
 
         return view('site.rooms', ['floors' => $floors, 'types' => self::types()]);

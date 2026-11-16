@@ -21,7 +21,11 @@ $wa = 'https://wa.me/' . \App\Support\Owner\Billing::phone(\App\Support\Site\Dem
     <header class="border-b border-slate-200 bg-white">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
             <a href="{{ route('site.home') }}" class="font-semibold text-navy">Kos Sodentna</a>
-            <a href="{{ route('login') }}" class="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-medium">Masuk</a>
+            @auth
+                <a href="{{ route(auth()->user()->isStaff() ? 'owner.dashboard' : 'tenant.home') }}" class="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-medium">Dashboard</a>
+            @else
+                <a href="{{ route('login') }}" class="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-medium">Masuk</a>
+            @endauth
         </div>
         <nav class="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-3 pb-2 text-sm">
             @foreach ($nav as [$k, $l])

@@ -98,6 +98,7 @@ class RoomController extends Controller
             'room' => $room,
             'floors' => Floor::orderBy('sort_order')->get(),
             'types' => RoomType::orderBy('name')->get(),
+            'rentals' => \App\Models\Rental::with('tenant')->where('room_id', $room->id)->orderByDesc('start_date')->orderByDesc('id')->get(),
         ]);
     }
 

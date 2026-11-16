@@ -13,7 +13,7 @@
         <aside class="h-fit space-y-4 rounded-lg border border-slate-200 bg-white p-5">
             <div><div class="text-xs text-slate-500">Bulanan</div><div class="text-2xl font-semibold text-navy">{{ $t['price'] }}</div></div>
             <div><div class="text-xs text-slate-500">Harian</div><div class="text-lg font-semibold text-navy">{{ $t['daily'] ? Fmt::rp($t['daily']) : 'Tidak tersedia' }}</div></div>
-            <a href="{{ route('site.apply', ['kamar' => $slug]) }}" class="block rounded-md bg-brand px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-brand-700">Ajukan sewa</a>
+            <a href="{{ route('site.apply') }}" class="block rounded-md bg-brand px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-brand-700">Ajukan sewa</a>
         </aside>
     </div>
 </x-site.layout>

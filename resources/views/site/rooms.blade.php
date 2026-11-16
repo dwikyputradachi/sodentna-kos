@@ -16,10 +16,11 @@
         <x-owner.card :title="$floor">
             <div class="grid grid-cols-3 gap-3 p-4 sm:grid-cols-6">
                 @foreach ($rooms as $r)
-                    <div class="rounded-lg border p-3 text-center {{ match($r['st']) { 'Tersedia' => 'border-emerald-200 bg-emerald-50/50', 'Dipesan' => 'border-amber-200 bg-amber-50/50', default => 'border-slate-200 bg-slate-50 text-slate-400' } }}">
+                    <a @if ($r['st'] === 'Tersedia') href="{{ route('site.apply', ['kamar' => $r['id']]) }}" @endif class="block rounded-lg border p-3 text-center {{ match($r['st']) { 'Tersedia' => 'border-emerald-200 bg-emerald-50/50', 'Dipesan' => 'border-amber-200 bg-amber-50/50', default => 'border-slate-200 bg-slate-50 text-slate-400' } }}">
                         <div class="font-semibold">{{ $r['code'] }}</div>
                         <div class="mt-1"><x-owner.badge :label="$r['st']" /></div>
-                    </div>
+                        @if ($r['st'] === 'Tersedia')<div class="mt-1 text-[11px] font-medium text-brand-700">Ketuk untuk ajukan</div>@endif
+                    </a>
                 @endforeach
             </div>
         </x-owner.card>

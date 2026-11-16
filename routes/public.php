@@ -3,6 +3,7 @@
 use App\Http\Controllers\Site\ActivationController as Act;
 use App\Http\Controllers\Site\ApplicationController as A;
 use App\Http\Controllers\Site\PageController as P;
+use App\Http\Controllers\Site\ReceiptController as Rc;
 use App\Http\Controllers\Site\WaitlistController as W;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::middleware('web')->name('site.')->group(function () {
 });
 
 Route::middleware('web')->group(function () {
+    Route::get('kuitansi/{token}', [Rc::class, 'show'])->middleware('throttle:60,1')->name('receipt.show');
     Route::get('aktivasi/{token}', [Act::class, 'show'])->name('activation');
     Route::post('aktivasi/{token}', [Act::class, 'store'])->middleware('throttle:10,10')->name('activation.store');
 });

@@ -38,7 +38,7 @@ class ApproveApplication
                 'address' => $app->address, 'id_number' => $app->id_number, 'job' => $app->job, 'institution' => $app->institution,
                 'emergency_name' => $app->emergency_name, 'emergency_relation' => $app->emergency_relation,
                 'emergency_phone' => $app->emergency_phone, 'emergency_address' => $app->emergency_address,
-                'id_doc_path' => $app->id_doc_path, 'status' => 'applicant',
+                'id_doc_path' => $app->id_doc_path, 'status' => 'applicant', 'religion' => $app->religion,
             ]);
 
             $monthly = $app->mode === 'monthly';
@@ -47,8 +47,11 @@ class ApproveApplication
                 'mode' => $app->mode, 'occupants' => $app->occupants, 'start_date' => $app->start_date, 'end_date' => $app->end_date,
                 'rate' => $monthly ? $room->type->monthlyRate($app->occupants) : (int) $room->type->daily_rate,
                 'deposit_amount' => $room->type->deposit_amount, 'billing_anchor_day' => $monthly ? $app->start_date->day : null,
-                'status' => 'reserved',
+                'status' => 'reserved', 'co_occupant_name' => $app->name_2,
+                'next_due_date' => $monthly ? \App\Support\BillingSchedule::nextAfter($app->start_date, $app->start_date->day)->toDateString() : null,
             ]);
+
+            app(GenerateInvoices::class)->firstInvoice($rental); // first bill: rent + deposit
 
             $from = $room->status;
             $room->update(['status' => 'reserved']);

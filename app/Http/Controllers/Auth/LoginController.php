@@ -14,6 +14,10 @@ class LoginController extends Controller
 {
     public function show()
     {
+        if (Auth::check()) {
+            return redirect()->route(Auth::user()->isStaff() ? 'owner.dashboard' : 'tenant.home');
+        }
+
         return view('auth.login');
     }
 
