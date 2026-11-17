@@ -22,7 +22,7 @@
         @if ($errors->any())
             <div class="rounded-md bg-red-50 p-3 text-sm text-red-700"><ul class="list-disc pl-5">@foreach ($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div>
         @endif
-
+        
         <form method="POST" action="{{ route('site.waitlist.store') }}" x-data="{ occ: {{ (int) old('occupants', 1) }} }" class="space-y-4 rounded-lg border border-slate-200 bg-white p-5">
             @csrf
             <div class="grid gap-4 sm:grid-cols-2">
