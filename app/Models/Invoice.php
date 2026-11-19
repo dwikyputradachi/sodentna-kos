@@ -26,7 +26,7 @@ class Invoice extends Model
 
     public function payment(): HasOne
     {
-        return $this->hasOne(Payment::class);
+        return $this->hasOne(Payment::class)->whereNull('voided_at');
     }
 
     public function periodLabel(): string

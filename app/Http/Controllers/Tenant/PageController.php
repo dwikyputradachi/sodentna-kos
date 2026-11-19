@@ -53,7 +53,7 @@ class PageController extends Controller
         $rentalIds = Rental::where('tenant_id', $t->id)->pluck('id');
         $invoices = Invoice::with('payment.receipt')->whereIn('rental_id', $rentalIds)->orderByDesc('due_date')->get()->map(fn ($i) => ['i' => $i, 's' => InvoiceState::of($i)]);
         $next = $invoices->filter(fn ($x) => $x['i']->status === 'unpaid')->sortBy(fn ($x) => $x['i']->due_date)->first();
-        $payments = Payment::with(['receipt', 'invoice'])->whereIn('rental_id', $rentalIds)->orderByDesc('paid_on')->orderByDesc('id')->get();
+        $payments = Payment::with(['receipt', 'invoice'])->whereIn('rental_id', $rentalIds)->whereNull('voided_at')->orderByDesc('paid_on')->orderByDesc('id')->get();
 
         return view($view, $data + ['tenant' => $t, 'rental' => $r, 'first' => $this->firstPayment($r), 'invoices' => $invoices, 'next' => $next, 'payments' => $payments]);
     }

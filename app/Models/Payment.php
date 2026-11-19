@@ -16,7 +16,7 @@ class Payment extends Model
 
     protected function casts(): array
     {
-        return ['paid_on' => 'date'];
+        return ['paid_on' => 'date', 'voided_at' => 'datetime'];
     }
 
     public function invoice(): BelongsTo

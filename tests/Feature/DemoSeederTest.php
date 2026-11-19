@@ -64,10 +64,11 @@ class DemoSeederTest extends TestCase
         $owner = User::where('phone', '6281300000001')->firstOrFail();
 
         $this->actingAs($owner);
-        foreach (['owner.dashboard', 'owner.rooms', 'owner.tenants', 'owner.billing', 'owner.applications', 'owner.waitlist', 'owner.whatsapp'] as $route) {
+        foreach (['owner.dashboard', 'owner.rooms', 'owner.tenants', 'owner.billing', 'owner.applications', 'owner.waitlist', 'owner.whatsapp', 'owner.finance', 'owner.reports', 'owner.documents'] as $route) {
             $this->get(route($route))->assertOk();
         }
         $this->get(route('owner.tenants', ['tab' => 'alumni']))->assertOk()->assertSee('Ahmad Fauzi');
+        $this->get(route('owner.finance'))->assertSee('Listrik & air')->assertSee('Saldo akhir kas');
         $this->get(route('owner.tenants', ['tab' => 'dipesan']))->assertOk()->assertSee('Sari Ramadhani');
         $this->get(route('owner.billing'))->assertSee('Alma Rikhafinata')->assertSee('Terlambat');
 

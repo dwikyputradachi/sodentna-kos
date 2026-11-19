@@ -107,7 +107,7 @@ class AutoMessenger
                 Carbon::now()->subDays(self::RECEIPT_LOOKBACK_DAYS),
                 ($s = Settings::get($pid, 'wa_auto_since')) ? Carbon::parse($s) : Carbon::now()->subDays(self::RECEIPT_LOOKBACK_DAYS)
             );
-            $ids = Payment::withoutGlobalScopes()->where('property_id', $pid)->where('created_at', '>=', $since)->pluck('invoice_id');
+            $ids = Payment::withoutGlobalScopes()->where('property_id', $pid)->where('created_at', '>=', $since)->whereNull('voided_at')->pluck('invoice_id');
             Invoice::withoutGlobalScopes()->whereIn('id', $ids)->where('status', 'paid')->get()->each(function (Invoice $i) use (&$out) {
                 $out[] = [$i, 'receipt'];
             });
@@ -133,7 +133,7 @@ class AutoMessenger
         if (strlen($phone) < 10) return null;
 
         if ($kind === 'receipt') {
-            $payment = Payment::withoutGlobalScopes()->with(['receipt' => fn ($q) => $q->withoutGlobalScopes()])->where('invoice_id', $invoice->id)->first();
+            $payment = Payment::withoutGlobalScopes()->with(['receipt' => fn ($q) => $q->withoutGlobalScopes()])->where('invoice_id', $invoice->id)->whereNull('voided_at')->first();
             if (! $payment?->receipt) return null;
             $body = Messages::receipt($payment->receipt, $invoice, $property->name);
         } else {

@@ -6,6 +6,7 @@ use App\Actions\ApproveApplication;
 use App\Actions\CreateTenantManually;
 use App\Actions\GenerateInvoices;
 use App\Actions\RecordPayment;
+use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\Property;
 use App\Models\Rental;
@@ -16,6 +17,7 @@ use App\Models\RoomType;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Models\WaitingListEntry;
+use App\Support\Settings;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
@@ -112,6 +114,17 @@ class DemoSeeder extends Seeder
         $r104 = $room('104');
         $r104->update(['status' => 'maintenance']);
         RoomStatusLog::create(['property_id' => $p->id, 'room_id' => $r104->id, 'from_status' => 'available', 'to_status' => 'maintenance', 'note' => 'AC rusak (data demo)', 'user_id' => $owner->id]);
+
+        // Finance demo: opening balance + this month's and last month's expenses
+        Settings::set($p->id, 'opening_date', $today->copy()->subMonths(6)->startOfMonth()->toDateString());
+        Settings::set($p->id, 'opening_balance', '3000000');
+        foreach ([[-2, 'Listrik & air', 1850000, 'transfer', 'Listrik & air bulan ini', null], [-3, 'Kebersihan', 700000, 'cash', 'Kebersihan bulanan', null],
+                  [-5, 'Perbaikan & pemeliharaan', 150000, 'cash', 'Ganti keran kamar mandi', '101'], [-8, 'Internet', 350000, 'transfer', 'Wi-Fi bulanan', null],
+                  [-9, 'Perlengkapan', 250000, 'cash', 'Lampu LED 10 pcs', null], [-12, 'Upah / gaji', 1200000, 'cash', 'Penjaga kos', null],
+                  [-35, 'Listrik & air', 1790000, 'transfer', 'Listrik & air bulan lalu', null], [-40, 'Kebersihan', 700000, 'cash', 'Kebersihan bulan lalu', null]] as [$off, $cat, $amt, $method, $desc, $rc]) {
+            Expense::create(['property_id' => $p->id, 'spent_on' => $today->copy()->addDays($off), 'category' => $cat, 'amount' => $amt, 'method' => $method,
+                'description' => $desc, 'room_id' => $rc ? $room($rc)->id : null, 'recorded_by' => $owner->id]);
+        }
 
         $this->command?->info('Data demo siap. Login pemilik: 081300000001 / sodentna-dev. Login penghuni: 081234567001 / sodentna-dev.');
         if (env('DEMO_PHONE')) $this->command?->info('Penghuni "Rizki Ramadhan" (jatuh tempo hari ini) memakai nomor DEMO_PHONE Anda.');

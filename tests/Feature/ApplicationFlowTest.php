@@ -217,13 +217,13 @@ class ApplicationFlowTest extends TestCase
         $user = User::where('phone', '6281234567890')->first();
         $token = basename(Invitations::issue($user));
 
-        $this->get(route('activation', $token))->assertOk()->assertSee('Aktivasi akun');
+        $this->get(route('activation', $token))->assertOk()->assertSee('Aktivasi Akun');
         $this->post(route('activation.store', $token), ['password' => 'passwordku123', 'password_confirmation' => 'passwordku123'])->assertRedirect(route('tenant.home'));
         $this->assertNotNull($user->fresh()->password);
         $this->post(route('activation.store', $token), ['password' => 'lain-lagi-123', 'password_confirmation' => 'lain-lagi-123'])->assertNotFound();
 
         AccountInvitation::create(['user_id' => $user->id, 'token_hash' => hash('sha256', 'kedaluwarsa'), 'expires_at' => now()->subDay()]);
-        $this->get(route('activation', 'kedaluwarsa'))->assertSee('Tautan tidak berlaku');
+        $this->get(route('activation', 'kedaluwarsa'))->assertSee('Tautan Tidak Berlaku');
     }
 
     public function test_status_page_shows_room_and_whether_the_account_is_active(): void

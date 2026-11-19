@@ -17,6 +17,6 @@ class ReceiptController extends Controller
         $payment = Payment::withoutGlobalScopes()->findOrFail($receipt->payment_id);
         $invoice = Invoice::withoutGlobalScopes()->with(['rental' => fn ($q) => $q->withoutGlobalScopes()->with(['tenant' => fn ($t) => $t->withoutGlobalScopes(), 'room' => fn ($x) => $x->withoutGlobalScopes()])])->findOrFail($payment->invoice_id);
 
-        return view('site.receipt', ['r' => $receipt, 'p' => $payment, 'i' => $invoice, 'property' => Property::findOrFail($receipt->property_id)]);
+        return view('site.receipt', ['r' => $receipt, 'p' => $payment, 'i' => $invoice, 'property' => Property::findOrFail($receipt->property_id), 'voided' => (bool) $payment->voided_at]);
     }
 }

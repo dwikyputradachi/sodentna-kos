@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Owner;
 
 use App\Actions\GenerateInvoices;
 use App\Actions\RecordPayment;
+use App\Actions\VoidPayment;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\MessageLog;
+use App\Models\Payment;
 use App\Models\Property;
 use App\Support\BillingSchedule;
 use App\Support\CurrentProperty;
@@ -100,6 +102,20 @@ class BillingController extends Controller
         $n = Invoice::whereKey($invoice->id)->where('status', 'unpaid')->update(['status' => 'void', 'void_reason' => $d['reason']]);
 
         return back()->with($n ? 'ok' : 'err', $n ? 'Tagihan dibatalkan.' : 'Hanya tagihan yang belum dibayar yang bisa dibatalkan.');
+    }
+
+    /** Wrong payment? Cancel it (kept in the books for audit); the invoice becomes payable again. */
+    public function voidPayment(Request $r, Payment $payment, VoidPayment $action)
+    {
+        $d = $r->validate(['reason' => ['required', 'string', 'max:200']]);
+
+        try {
+            $action->handle($payment, $d['reason'], $r->user());
+        } catch (DomainException $e) {
+            return back()->with('err', $e->getMessage());
+        }
+
+        return back()->with('ok', 'Pembayaran dibatalkan. Tagihan kembali belum lunas dan bisa dicatat ulang; kuitansi lama ditandai dibatalkan.');
     }
 
     /**

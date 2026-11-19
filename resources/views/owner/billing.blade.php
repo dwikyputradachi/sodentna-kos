@@ -76,6 +76,13 @@ $in = 'w-full rounded-md border border-slate-300 px-2.5 py-2 text-sm focus:borde
                                 @if ($logs->has('receipt'))<x-owner.log-note :log="$logs['receipt']" />@endif
                                 <a href="{{ $i->payment->receipt->url() }}" target="_blank" class="text-xs font-medium text-brand-700">Lihat kuitansi {{ $i->payment->receipt->number }}</a>
                                 <div class="text-[11px] text-slate-400">Dibayar {{ Fmt::date($i->payment->paid_on) }} · {{ $i->payment->methodLabel() }}</div>
+                                <details class="w-64">
+                                    <summary class="cursor-pointer px-1 text-[11px] text-slate-400">Batalkan pembayaran</summary>
+                                    <form method="POST" action="{{ route('owner.payments.void', $i->payment) }}" onsubmit="return confirm('Batalkan pembayaran ini? Tagihan kembali belum lunas.')" class="mt-1 space-y-1.5">@csrf
+                                        <input name="reason" required maxlength="200" placeholder="Alasan" class="{{ $in }}">
+                                        <button class="rounded-md border border-red-200 px-2.5 py-1 text-xs text-red-700">Batalkan pembayaran</button>
+                                    </form>
+                                </details>
                             @endif
                         </div>
                     </td>
